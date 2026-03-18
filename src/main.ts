@@ -16,9 +16,9 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import './assets/main.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.js'
+import './assets/main.css'
 
 import { createApp } from 'vue'
 import { VueMasonryPlugin } from 'vue-masonry';

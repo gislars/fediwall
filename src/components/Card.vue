@@ -31,7 +31,7 @@ const onMediaLoad = inject('fixLayout', () => undefined)
 
 <template>
   <div class="wall-item">
-    <div class="card mx-2 my-3" :class="post.pinned ? 'pinned' : ''">
+    <div class="card mx-2 my-3" :class="[post.pinned ? 'pinned' : '', post.highlighted ? 'highlighted' : '']">
       <div v-if="post.author" class="card-header d-flex align-items-center">
         <a v-if="post.author?.avatar" :href="post.url" target="_blank" class="flex-shrink-0">
           <img :src="post.author.avatar" class="me-2 avatar" />
@@ -67,6 +67,10 @@ const onMediaLoad = inject('fixLayout', () => undefined)
 }
 
 .wall-item .card.pinned .card-header {
+  background-color: var(--bs-primary-bg-subtle);
+}
+
+.wall-item .card.highlighted .card-header {
   background-color: var(--bs-primary-bg-subtle);
 }
 

@@ -3,6 +3,9 @@ export type Config = {
     tags: Array<string>,
     accounts: Array<string>,
 
+    highlightAccounts: Array<string>,
+    highlightHashtags: Array<string>,
+
     loadPublic: boolean,
     loadFederated: boolean,
     loadTrends: boolean,
@@ -42,6 +45,7 @@ export type Post = {
     media: Array<PostMedia>;
 
     pinned?: boolean;
+    highlighted?: boolean;
 };
 
 export type PostMedia = {

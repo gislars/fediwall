@@ -32,6 +32,11 @@ const formTags = computed({
   set: (value) => config.value.tags = arrayUnique([...(value || "").matchAll(tagPattern)].map(m => m[1])),
 });
 
+const formHighlightHashtags = computed({
+  get: () => config.value.highlightHashtags.map(t => '#' + t).join(" "),
+  set: (value) => config.value.highlightHashtags = arrayUnique([...(value || "").matchAll(tagPattern)].map(m => m[1])),
+});
+
 const badwordPattern = /([^, ]+)/igu
 const formBadWords = computed({
   get: () => config.value.badWords.join(" "),
@@ -42,6 +47,11 @@ const accountPattern = /\b([a-z0-9_]+)(@([a-z0-9.-]+\.[a-z]{2,}))?\b/ig;
 const formAccounts = computed({
   get: () => config.value.accounts.map(t => "@" + t).join(" "),
   set: (value) => config.value.accounts = [...(value || "").matchAll(accountPattern)].map(m => m[0]),
+});
+
+const formHighlightAccounts = computed({
+  get: () => config.value.highlightAccounts.map(t => "@" + t).join(" "),
+  set: (value) => config.value.highlightAccounts = [...(value || "").matchAll(accountPattern)].map(m => m[0]),
 });
 
 const langPattern = /\b([a-z]{2})\b/ig;
@@ -273,6 +283,9 @@ const onSubmit = () => {
                       <option value="light">Light mode</option>
                       <option value="dark">Dark mode</option>
                       <option value="auto">Auto (browser default)</option>
+                      <option value="fossgis-light">FOSSGIS (Light)</option>
+                      <option value="fossgis-dark">FOSSGIS (Dark)</option>
+                      <option value="fossgis-auto">FOSSGIS (Auto)</option>
                     </select>
                     <div class="form-check mt-2">
                       <input class="form-check-input" type="checkbox" id="edit-info" v-model="config.showInfobar">
@@ -280,6 +293,24 @@ const onSubmit = () => {
                         Show info bar at the top
                       </label>
                     </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="edit-highlight-accounts" class="form-label">Highlight Accounts:</label>
+                  <div class="ms-5">
+                    <input type="text" class="form-control" id="edit-highlight-accounts" v-model.lazy="formHighlightAccounts"
+                      :disabled="!hasServers">
+                    <div class="form-text">Wird genutzt zusammen mit `highlightHashtags` als UND-Bedingung (Reblogs werden nicht hervorgehoben).</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="edit-highlight-tags" class="form-label">Highlight Hashtags:</label>
+                  <div class="ms-5">
+                    <input type="text" class="form-control" id="edit-highlight-tags" v-model.lazy="formHighlightHashtags"
+                      :disabled="!hasServers">
+                    <div class="form-text">Mindestens ein Hashtag aus dieser Liste muss im Toot enthalten sein, damit die Card hervorgehoben wird.</div>
                   </div>
                 </div>
 

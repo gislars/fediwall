@@ -8,7 +8,7 @@ export const siteConfigParam = "load"
 let siteConfig: Config | undefined;
 let siteConfigSource: string | undefined = undefined;
 
-const themes = ["dark", "light", "auto"];
+const themes = ["dark", "light", "auto", "fossgis-light", "fossgis-dark", "fossgis-auto"];
 const boolYes = ["yes", "", "y", "true"];
 const boolNo = ["no", "n", "false"];
 
@@ -57,6 +57,16 @@ const parameterDefinitions: Array<ParamDef> = [
         names: ["accounts", "a"],
         from: (config: Partial<Config>, value: string) => config.accounts = value?.split(","),
         to: (config: Config) => (config.accounts || []).join(","),
+    },
+    {
+        names: ["highlightAccounts", "ha"],
+        from: (config: Partial<Config>, value: string) => config.highlightAccounts = value?.split(","),
+        to: (config: Config) => (config.highlightAccounts || []).join(","),
+    },
+    {
+        names: ["highlightHashtags", "ht"],
+        from: (config: Partial<Config>, value: string) => config.highlightHashtags = value?.split(","),
+        to: (config: Config) => (config.highlightHashtags || []).join(","),
     },
     {
         names: ["timelines", "tl"],
@@ -249,6 +259,8 @@ export function sanitizeConfig(config: any): Config {
     result.servers = arrayUnique((Array.isArray(config.servers) ? [...config.servers] : [...fallback.servers]).filter(isServer));
     result.tags = arrayUnique((Array.isArray(config.tags) ? [...config.tags] : [...fallback.tags]).map(stripTag).filter(isTag) as string[]);
     result.accounts = arrayUnique((Array.isArray(config.accounts) ? [...config.accounts] : [...fallback.accounts]).filter(isAccount));
+    result.highlightAccounts = arrayUnique((Array.isArray(config.highlightAccounts) ? [...config.highlightAccounts] : [...fallback.highlightAccounts]).filter(isAccount));
+    result.highlightHashtags = arrayUnique((Array.isArray(config.highlightHashtags) ? [...config.highlightHashtags] : [...fallback.highlightHashtags]).map(stripTag).filter(isTag) as string[]);
 
     result.loadFederated = boolOr(config.loadFederated, fallback.loadFederated)
     result.loadPublic = boolOr(config.loadPublic, fallback.loadPublic)

@@ -282,6 +282,8 @@ function findMedia(status: MastodonStatus) {
  * Convert a mastodon status object to a Post.
  */
 const statusToWallPost = (cfg: Config, status: MastodonStatus): Post => {
+    const isReblog = !!status.reblog;
+
     const date = new Date(status.created_at)
 
     if (status.reblog)
@@ -317,6 +319,37 @@ const statusToWallPost = (cfg: Config, status: MastodonStatus): Post => {
     const profile = status.account.acct
     const content = replaceEmojis(status.content, status.emojis)
 
+    const accountMatch = (() => {
+        if (!cfg.highlightAccounts?.length) return false;
+
+        const authorAcct = (status.account.acct || "").replace(/^@/, "").toLowerCase()
+        const [authorUser, authorDomain] = authorAcct.split('@', 2)
+        if (!authorUser || !authorDomain) return false;
+
+        const serverDomains = new Set(cfg.servers.map(s => s.toLowerCase()))
+
+        return cfg.highlightAccounts.some((highlightAccount) => {
+            const normalized = (highlightAccount || "").replace(/^@/, "").toLowerCase()
+            const [hlUser, hlDomain] = normalized.split('@', 2)
+            if (!hlUser) return false;
+
+            // Domainless highlight accounts only match on accounts from the configured server set.
+            if (!hlDomain)
+                return hlUser === authorUser && serverDomains.has(authorDomain)
+
+            return hlUser === authorUser && hlDomain === authorDomain
+        })
+    })()
+
+    const hashtagMatch = (() => {
+        if (!cfg.highlightHashtags?.length) return false;
+
+        const highlightSet = new Set(cfg.highlightHashtags.map(h => h.toLowerCase()))
+        return status.tags?.some(tag => highlightSet.has((tag.name || "").replace(/^#/, "").toLowerCase())) || false;
+    })()
+
+    const highlighted = !isReblog && accountMatch && hashtagMatch;
+
     const media = findMedia(status)
 
     return {
@@ -330,6 +363,7 @@ const statusToWallPost = (cfg: Config, status: MastodonStatus): Post => {
         },
         content,
         date,
+        highlighted,
         media,
     }
 }

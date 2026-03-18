@@ -68,8 +68,9 @@ watch([useWindowSize().width, config, allPosts], fixLayout, { deep: true })
 const isDarkPreferred = usePreferredDark()
 const actualTheme = computed(() => {
   var theme = config.value?.theme
-  if (!theme || theme === "auto")
-    theme = isDarkPreferred.value ? "dark" : "light"
+  if (!theme) return isDarkPreferred.value ? "dark" : "light"
+  if (theme === "auto") return isDarkPreferred.value ? "dark" : "light"
+  if (theme.endsWith("-auto")) return theme.replace("-auto", isDarkPreferred.value ? "-dark" : "-light")
   return theme
 })
 watch(actualTheme, () => {
@@ -223,7 +224,21 @@ const hideDomain = (profile: string) => {
 
 const toggleTheme = () => {
   if (!config.value) return
-  config.value.theme = actualTheme.value === "dark" ? "light" : "dark"
+  var theme = config.value.theme
+  const t = actualTheme.value
+
+  // If auto is set, toggle within the resolved theme family.
+  if (!theme || theme === "auto" || theme.endsWith("-auto"))
+    theme = t
+
+  if (theme === "light")
+    config.value.theme = "dark"
+  else if (theme === "dark")
+    config.value.theme = "light"
+  else if (theme.endsWith("-light"))
+    config.value.theme = theme.replace("-light", "-dark")
+  else if (theme.endsWith("-dark"))
+    config.value.theme = theme.replace("-dark", "-light")
 }
 
 const privacyLink = computed(() => {
@@ -286,7 +301,7 @@ const privacyLink = computed(() => {
       <aside class="opacity-50 text-center">
         Status: {{ statusText || "OK" }}
       </aside>
-      <button class="btn btn-link text-muted" @click="toggleTheme(); false">[{{ actualTheme == "dark" ? "Light" : "Dark"
+      <button class="btn btn-link text-muted" @click="toggleTheme(); false">[{{ (actualTheme === "dark" || actualTheme.endsWith("-dark")) ? "Light" : "Dark"
         }} mode]</button>
       <button class="btn btn-link text-muted" data-bs-toggle="modal" data-bs-target="#configModal">[Customize]</button>
       <div>

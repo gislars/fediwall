@@ -8,6 +8,9 @@ export const fallbackConfig: Config = {
     tags: ["foss", "cats", "dogs"],
     accounts: [],
 
+    highlightAccounts: [],
+    highlightHashtags: [],
+
     loadPublic: false,
     loadFederated: false,
     loadTrends: false,
