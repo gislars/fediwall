@@ -1,6 +1,6 @@
 {
     "servers": ["mastodon.online", "fedi.buzz"],
-    "tags": ["fossgis", "openstreetmap"],
+    "tags": ["fossgis", "openstreetmap", "fossgis2026"],
     "accounts": ["FOSSGISeV@mastodon.online"],
     "theme": "fossgis-light"
 }
