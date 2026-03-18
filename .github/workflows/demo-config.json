@@ -1,6 +1,6 @@
 {
-    "servers": ["mastodon.social", "fedi.buzz"],
-    "tags": ["foss", "cats", "dogs", "fediwall"],
-    "accounts": ["defnull@chaos.social"],
-    "theme": "dark"
+    "servers": ["mastodon.online", "fedi.buzz"],
+    "tags": ["fossgis", "openstreetmap"],
+    "accounts": ["FOSSGISeV@mastodon.online"],
+    "theme": "fossgis-light"
 }
