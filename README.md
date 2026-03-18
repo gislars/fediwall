@@ -1,5 +1,7 @@
 # Fediwall
 
+For FOSSGIS 2026, the Wall was prepared with an optional highlighting logic. Selected accounts can be marked via `highlightAccounts`, and cards are highlighted when the post is not a reblog and it contains at least one hashtag from `highlightHashtags` (for example `fossgis2026`). The Appearance settings now also include the new themes `fossgis-light`, `fossgis-dark`, and `fossgis-auto`. The included default configuration in `public/wall-config.json` was updated accordingly.
+
 Fediwall is a *media wall* application made for [Mastodon](https://joinmastodon.org/). Follow hashtags or accounts and show the most recent posts in a self-updating, screen filling and visually pleasing masonry grid layout. Put it on a large screen and showcase community feedback or social media reactions while hosting your next big event, or use it to look at cat pictures all day. Your choice.
 
 **Try it!** Check out [fediwall.social](https://fediwall.social/) or host your own (see below).

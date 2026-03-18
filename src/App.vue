@@ -305,10 +305,10 @@ const privacyLink = computed(() => {
         }} mode]</button>
       <button class="btn btn-link text-muted" data-bs-toggle="modal" data-bs-target="#configModal">[Customize]</button>
       <div>
-        <a href="https://github.com/defnull/fediwall" target="_blank" class="mx-1 text-muted">Fediwall <span
+        <a href="https://github.com/gislars/fediwall" target="_blank" class="mx-1 text-muted">Fediwall <span
             v-if="gitVersion">{{ gitVersion }}</span></a>
-        - <a href="https://github.com/defnull/fediwall" target="_blank" class="mx-1">Github</a>
-        - <a href="https://github.com/defnull/fediwall#readme" target="_blank" class="mx-1">Documentation</a>
+        - <a href="https://github.com/gislars/fediwall" target="_blank" class="mx-1">Github</a>
+        - <a href="https://github.com/gislars/fediwall#readme" target="_blank" class="mx-1">Documentation</a>
         - <a :href="privacyLink" target="_blank" class="mx-1">Privacy policy</a>
       </div>
     </footer>
